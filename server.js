@@ -11,10 +11,17 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const userRoutes = require('./server/routes/user.routes');
-const viajeRoutes = require('./server/routes/viaje.routes');
-const conductorRoutes = require('./server/routes/conductor.routes');
-viajeRoutes(app);
+const especialidadRoutes = require('./server/routes/especilidad.routes');
+const horarioRoutes = require('./server/routes/horario.routes');
+const rolRoutes = require('./server/routes/rol.routes');
+const pacienteRoutes = require('./server/routes/paciente.routes');
+const reservaRoutes = require('./server/routes/reserva.routes');
+
 userRoutes(app);
-conductorRoutes(app);
+especialidadRoutes(app);
+horarioRoutes(app);
+rolRoutes(app);
+pacienteRoutes(app);
+reservaRoutes(app);
 
 app.listen(port, () => console.log('Im listening so cool!'))

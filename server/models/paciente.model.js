@@ -15,6 +15,7 @@ const PacienteSchema = new mongoose.Schema(
 		rut: {
 			type: String,
 			required: [true, "Rut es requerido"],
+			unique: true
 			// minlength: [2, "Nombre debe tener al menos 2 caracteres"]
 		},
 		telefono: {
@@ -32,3 +33,4 @@ const PacienteSchema = new mongoose.Schema(
 );
 
 const Paciente = mongoose.model("Paciente", PacienteSchema);
+module.exports = Paciente;

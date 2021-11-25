@@ -45,8 +45,13 @@ module.exports.createUsuario = async (req, res) => {
             
             const cuerpo = {
                 name: body.name,
+                rut: body.rut,
+                telefono: body.telefono,
                 email: body.email,
-                password: body.password
+                password: body.password,
+                estado: body.estado,
+                rol: body.rol,
+                especialidad: body.especialidad
             }
             const salt = bcrypt.genSaltSync();
             cuerpo.password =  bcrypt.hashSync(cuerpo.password, salt);

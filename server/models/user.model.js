@@ -36,11 +36,11 @@ const UserSchema = new mongoose.Schema(
             ref: "Rol", 
             required: [true, "Rol is required"]
         },
-        especialidad: [{
+        especialidad: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Especialidad", 
             required: [true, "Especialidad is required"]
-        }]
+        }
 		
 	},
 	{ timestamps: true }

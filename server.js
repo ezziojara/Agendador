@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port = 8000;
+// const port = 8000;
 require('dotenv').config();
 require('./server/config/mongoose.config');
 
@@ -24,4 +24,4 @@ rolRoutes(app);
 pacienteRoutes(app);
 reservaRoutes(app);
 
-app.listen(port, () => console.log('Im listening so cool!'))
+app.listen(process.env.PORT, () => console.log('Im listening so cool!'))

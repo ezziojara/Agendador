@@ -43,3 +43,14 @@ module.exports.deleteReserva = async (req, res) => {
         return res.status(500).json({error: err});
     }
 }
+
+module.exports.getReservaxPaciente = async (req, res) => {
+    try{
+        const { paciente_id, reserva_id } = req.params;
+        const reservaList = await Reserva.find({ _id: reserva_id, paciente: paciente_id, });
+        
+        return res.json({ reservaList });
+    }catch(err){
+        return res.status(500).json({error: err});
+    }
+};

@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.contentHome {
+  padding: 30px;
+}
+.divRight {
+  display: flex;
+  justify-content: end;
+}
+
+th.ant-table-cell {
+  background-color: #1890ff!important;
+}

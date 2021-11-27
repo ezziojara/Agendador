@@ -44,6 +44,7 @@ export const LoginUser = () => {
 
     useEffect(() => {
         getEspecialidad();
+
     }, [])
 
 
@@ -53,6 +54,7 @@ export const LoginUser = () => {
     }
     const onFinish = (values: any) => {
         console.log('Success:', values);
+        
         const valuePasientes =  {
             rut: values.rut
         }

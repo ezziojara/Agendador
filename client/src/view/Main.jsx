@@ -15,32 +15,20 @@ export const Main = () => {
     }
 
     const onChangeSelect = (value) => {
-        console.log(`selected ${value}`);
-        initDoctor.filter(doctor => doctor.id === value).map(doctor => {
+        console.log(value);
             setDoctor(doctor);
-        })
+            optionDoctor.filter(item => {
+                if(item._id === value){
+                    setDoctor(item);
+                }
+            })
+
         
         
     }
     const [date, setDate] = useState(moment());
     const format = 'DD/MM/YYYY';
-    const  initDoctor = [
-    {
-        id: 1,
-        nombre: 'Doctor 1',
-        status: true
-    },
-    {
-        id: 2,
-        nombre: 'Doctor 2',
-        status: true
-    },
-    {
-        id: 3,
-        nombre: 'Doctor 3',
-        status: true
-    }
-    ]
+    
     const loading = () => {
         console.log('ok');
     }
@@ -102,25 +90,45 @@ export const Main = () => {
     const { paciente,setPaciente } = useContext(UsuarioContext);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const { especialidad, setEspecialidad } = useContext(EspecialidadContext);
-    console.log(especialidad);
-    const [doctor, setDoctor] = useState('');
+    const [optionDoctor, setOptionDoctor] = useState([]);
+    const [optionHorario, setOptionHorario] = useState([]);
     
+    const [doctor, setDoctor] = useState('');
     const getDoctor = () => {
-        axios.get('http://localhost:8080/api/aut/doctor/:id')
+        axios.get(`http://localhost:8080/api/aut/doctor/${especialidad}`)
             .then(res => {
-                console.log(res.data);
-        })
+               console.log(res.data);
+                setOptionDoctor(res.data);
+        }).catch(err => {
+            console.log(err);
+        }
+        )
+
     }
 
+    const getHorario = () => {
+        axios.get(`http://localhost:8080/api/horarios`)
+            .then(res => {
+                setOptionHorario(res.data);
+                console.log(res.data);
+        }).catch(err => {
+            console.log(err);
+        }
+        )
+    }
+
+
     useEffect(() => {
-        //getDoctor();
+        if(especialidad){
+            getDoctor();
+            getHorario();
+        }
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
 
 
-    console.log('contexto paciente', paciente);
     const [bloques, setBloques] = useState({});
     const   handleDate= (date) => {
         setDate(date);
@@ -134,6 +142,7 @@ export const Main = () => {
     };
     
       const handleOk = () => {
+        console.log(bloques);
         setIsModalVisible(false);
     };
     
@@ -145,7 +154,7 @@ export const Main = () => {
         textAlign: 'center',
         margin: '5px'
       };
-      console.log('paciente:', paciente);
+      
     return (
         <div className='contentHome'>
             <Row>
@@ -167,10 +176,10 @@ export const Main = () => {
                         }
                     >
                     
-                    { initDoctor?.map((item, index) => {
+                    { optionDoctor?.map((item, index) => {
                         return (                         
                         <>
-                            <Option key={index} value={item.id}>{item.nombre}</Option>
+                            <Option key={index} value={item._id}>{item.name}</Option>
                         </>
                         )}
                     )}
@@ -187,12 +196,12 @@ export const Main = () => {
                     
                 <Card  style={{ margin: 'auto',marginBottom: 15 , marginTop: 50}}  >
                 {
-                    initBloques?.map((item, index) => {
+                    optionHorario?.map((item, index) => {
                         return (
                             <div key={index}>
                                 
                                 <Card.Grid style={gridStyle} onClick={() => handleModal(item)}>
-                                    <h1>{item.nombre}</h1>
+                                    <h1>{item.horaInicio}</h1>
                                     <p>{item.status  ? 'Disponible': 'No disponible'}</p>
                                 </Card.Grid>
                                
@@ -204,7 +213,7 @@ export const Main = () => {
                     
                 </Col>
                
-                <Modal destroyOnClose={true}  title="Reserva" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
+                <Modal destroyOnClose={true}  title="Confirmar Reserva" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
                 footer={[
                     <Button key="back" onClick={handleCancel}>
                       Cancelar

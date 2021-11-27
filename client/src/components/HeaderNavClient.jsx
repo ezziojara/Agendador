@@ -20,11 +20,11 @@ export const HeaderNavClient = () => {
             <Header>
       <div className="logo" />
       <Menu theme="dark" mode="horizontal" defaultSelectedKeys={location.pathname}>
-        <Menu.Item key="/home">
-          <Link to="/home">Reservar</Link>
-        </Menu.Item>
         <Menu.Item key="/reserve">
-          <Link to="/reserve">Buscar Reservas</Link>
+          <Link to="/reserve">Reservar</Link>
+        </Menu.Item>
+        <Menu.Item key="/home">
+          <Link to="/home">Buscar Reservas</Link>
         </Menu.Item>
        
 

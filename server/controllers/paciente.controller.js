@@ -16,22 +16,25 @@ module.exports.createPaciente = async (req, res) => {
     try{
         
         const { body } = req;
-        let newPaciente = await Paciente.find({ rut: body.rut });
+        let newPaciente = await Paciente.findOne({ rut: body.rut });
 
-        // console.log('newPaciente',newPaciente.length );
+        // console.log('newPacienteFind',newPaciente );
 
-        if(newPaciente.length === 0){
+        if(!newPaciente){
             newPaciente = await Paciente.create(body)
         }
-        const token = await generaJWTPaciente(newPaciente._id)
 
+        // console.log('newPaciente',newPaciente );
+
+        const token = await generaJWTPaciente(newPaciente._id)
+        
         const paciente = {
-            _id: newPaciente[0]._id,
-            nombre: newPaciente[0].nombre,
-            apellido: newPaciente[0].apellido,
-            rut: newPaciente[0].rut,
-            email: newPaciente[0].email,
-            telefono: newPaciente[0].telefono,
+            _id: newPaciente._id,
+            nombre: newPaciente.nombre,
+            apellido: newPaciente.apellido,
+            rut: newPaciente.rut,
+            email: newPaciente.email,
+            telefono: newPaciente.telefono,
             token:token
         }
 
@@ -39,6 +42,7 @@ module.exports.createPaciente = async (req, res) => {
         return res.json({ paciente })
 
     }catch(err){
+        // console.log('error',err );
         return res.status(500).json({error: err});
     }
 }

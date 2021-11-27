@@ -25,7 +25,7 @@ module.exports.AutenticaUsuario = async (req, res) => {
                 token:token
             }
 
-            return res.json({ usuario });
+            return res.json( usuario );
         }
         else{
             return res.status(401).json({error: 'Contraseña incorrecta'});
@@ -58,7 +58,7 @@ module.exports.createUsuario = async (req, res) => {
 
             const newUsuario = await User.create(cuerpo)
         
-            return res.json({ newUsuario })
+            return res.json( newUsuario )
         }
         else{
             return res.status(401).json({error: 'las contraseñas deben ser identicas'});

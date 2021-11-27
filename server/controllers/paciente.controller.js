@@ -6,7 +6,7 @@ module.exports.getPacientexRut = async (req, res) => {
         const { rut } = req.params;
         const pacienteList = await Paciente.find({ rut: rut });
         
-        return res.json({ pacienteList });
+        return res.json( pacienteList );
     }catch(err){
         return res.status(500).json({error: err});
     }
@@ -39,7 +39,7 @@ module.exports.createPaciente = async (req, res) => {
         }
 
         
-        return res.json({ paciente })
+        return res.json( paciente )
 
     }catch(err){
         // console.log('error',err );
@@ -51,7 +51,7 @@ module.exports.UpdatePaciente = async (req, res) => {
     try{
         const { id } = req.params;
         const updatePaciente =  await Paciente.findByIdAndUpdate({_id: id},req.body,{new: true});
-        return res.json({msg: 'Se ha actualizado correctamente', updatePaciente});
+        return res.json( updatePaciente );
 
     }catch(err){
         return res.status(500).json({error: err});

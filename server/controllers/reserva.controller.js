@@ -2,11 +2,13 @@ const Reserva = require('../models/reserva.model');
 
 module.exports.getReservaxDoctorxFecha = async (req, res) => {
     try{
-        const { doctor_id, fecha } = req.params;
-        const reservaList = await Reserva.find({ doctor: doctor_id, fecha: fecha });
+        let { id, fecha } = req.params;
+        fecha = new Date(fecha);
+        const reservaList = await Reserva.find({ doctor: id, fecha: fecha });
         
         return res.json( reservaList );
     }catch(err){
+        console.log("err",err)
         return res.status(500).json({error: err});
     }
 };

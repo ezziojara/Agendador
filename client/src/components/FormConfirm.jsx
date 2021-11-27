@@ -13,7 +13,7 @@ export const FormConfirm = ({doctor, bloques, date}) => {
         const valueReserva = {
             paciente: paciente._id,
             horario: bloques._id,
-            fecha: date,
+            fecha: moment(date).format('YYYY-MM-DD'),
             doctor: doctor._id,
         };
         console.log('valueReserva', valueReserva);

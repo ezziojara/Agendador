@@ -109,7 +109,7 @@ module.exports.getReservaxPaciente = async (req, res) => {
 
         console.log('id',id)
 
-        const reservaList = await Reserva.findOne({ _id: id }).populate('paciente');
+        const reservaList = await Reserva.findOne({ _id: id }).populate('paciente').populate('horario','horaInicio').populate('doctor','name rut');
 
         if(reservaList){
             return reservaList.paciente.rut === rut ? res.json( reservaList ) : res.status(404).json( {msg: 'Rut no pertence a la reserva'} )

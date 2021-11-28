@@ -20,27 +20,25 @@ export const Register = () => {
       password: '',
   }
 
-  const getEspecialidad =() =>{
-    axios.get('http://localhost:8080/api/especialidades')
-    .then(res => {
-        setOptionEspecialidad(res.data);
-        console.log(res.data);
-    }).catch(err => {
-        console.log(err);
-    }
-    )
+  const getEspecialidad = async() =>{
+      try {
+          const res = await axios.get('http://localhost:8080/api/especialidades');
+          setOptionEspecialidad(res.data);
+          console.log(res.data);
+      } catch (error) {
+        console.log(error);
+      }
   }
 
 
-  const getRoles =() =>{
-    axios.get('http://localhost:8080/api/roles')
-    .then(res => {
+  const getRoles =async() =>{
+      try{
+        const res = await axios.get('http://localhost:8080/api/roles');
         setOptionRoles(res.data);
         console.log(res.data);
-    }).catch(err => {
-        console.log(err);
-    }
-    )
+      }catch(error){
+        console.log(error);
+      }
   }
 
 

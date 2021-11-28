@@ -6,6 +6,6 @@ module.exports = (app) => {
     app.post('/api/reservas/new', validaJWTPaciente ,createReserva);
     app.put('/api/reservas/update/:id' ,UpdateReserva);
     app.delete('/api/reservas/delete/:id' ,deleteReserva);
-    app.get('/api/reservas/paciente/:id/:reserva',validaJWTPaciente,getReservaxPaciente);
+    app.get('/api/reservas/paciente/:id/:rut',validaJWTPaciente,getReservaxPaciente);
 
 }

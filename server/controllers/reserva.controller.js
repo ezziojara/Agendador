@@ -8,7 +8,6 @@ module.exports.getReservaxDoctorxFecha = async (req, res) => {
         const horarios = [];
         fecha = new Date(fecha);
         id = mongoose.Types.ObjectId(id);
-        console.log(id)
 
         let horarioList = await Horario.aggregate([
             
@@ -65,39 +64,8 @@ module.exports.getReservaxDoctorxFecha = async (req, res) => {
             
             
         ]);
-
-        
-
-        // horarioList = horarioList.find({})
-
-        // const reservaList = await Reserva.find({ doctor: id, fecha: fecha });
-        // const horarioList = await Horario.find();
-
-        // horarioList?.map((horario)=>{
-        //     reservaList?.map((reserva)=>{
-        //         console.log("reserva.horario",reserva.horario)
-        //         if(horario._id.toString() === reserva.horario.toString()){
-        //             horario = { 
-        //                         "_id": horario._id,
-        //                         "orden": horario.orden,
-        //                         "horaInicio": horario.horaInicio,
-        //                         "horaFin": horario.horaFin,
-        //                         "estado": horario.estado,
-        //                         "disponible": false
-        //                       }
-        //         }
-                
-                
-        //         horarios.push(horario)
-        //     })
-            
-        // })
-
-        // console.log('horarios',horarios);
-
         return res.json( horarioList );
     }catch(err){
-        console.log("err",err)
         return res.status(500).json({error: err});
     }
 };
@@ -137,10 +105,11 @@ module.exports.deleteReserva = async (req, res) => {
 
 module.exports.getReservaxPaciente = async (req, res) => {
     try{
-        const { paciente_id, reserva_id } = req.params;
-        const reservaList = await Reserva.find({ _id: reserva_id, paciente: paciente_id, });
-        
-        return res.json( reservaList );
+        const { id, rut } = req.params;
+
+        const reservaList = await Reserva.find({ _id: id }).populate('paciente');
+
+        return reservaList[0].paciente.rut === rut ? res.json( reservaList ) : res.status(404).json( {msg: 'Rut no pertence a la reserva'} )
     }catch(err){
         return res.status(500).json({error: err});
     }

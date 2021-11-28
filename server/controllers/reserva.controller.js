@@ -96,7 +96,7 @@ module.exports.UpdateReserva = async (req, res) => {
 module.exports.deleteReserva = async (req, res) => {
     try{
         const { id } = req.params;
-        const deleteReserva =  await Conductor.deleteOne({_id: id});
+        const deleteReserva =  await Reserva.deleteOne({_id: id});
         return res.json( deleteReserva );
     }catch(err){
         return res.status(500).json({error: err});

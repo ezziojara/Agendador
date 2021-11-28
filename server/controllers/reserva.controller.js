@@ -107,9 +107,9 @@ module.exports.getReservaxPaciente = async (req, res) => {
     try{
         const { id, rut } = req.params;
 
-        const reservaList = await Reserva.find({ _id: id }).populate('paciente');
+        const reservaList = await Reserva.findOne({ _id: id }).populate('paciente');
 
-        return reservaList[0].paciente.rut === rut ? res.json( reservaList ) : res.status(404).json( {msg: 'Rut no pertence a la reserva'} )
+        return reservaList.paciente.rut === rut ? res.json( reservaList ) : res.status(404).json( {msg: 'Rut no pertence a la reserva'} )
     }catch(err){
         return res.status(500).json({error: err});
     }

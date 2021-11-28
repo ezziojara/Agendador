@@ -1,11 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {
     Form,
     Input,
     Button,
+    Select
   } from 'antd';
 import Swal from 'sweetalert2';
 import { useNavigate, Route, Link } from 'react-router-dom';
+import axios from 'axios';
 
 export const Register = () => {
   
@@ -17,11 +19,65 @@ export const Register = () => {
       email: '',
       password: '',
   }
-  const [usuarioNew, setUsuarioNew] = useState(initDates)
-  const {nombre, apellido, email, password, genero} = usuarioNew;
-    const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+
+  const getEspecialidad =() =>{
+    axios.get('http://localhost:8080/api/especialidades')
+    .then(res => {
+        setOptionEspecialidad(res.data);
+        console.log(res.data);
+    }).catch(err => {
+        console.log(err);
     }
+    )
+  }
+
+
+  const getRoles =() =>{
+    axios.get('http://localhost:8080/api/roles')
+    .then(res => {
+        setOptionRoles(res.data);
+        console.log(res.data);
+    }).catch(err => {
+        console.log(err);
+    }
+    )
+  }
+
+
+
+  
+  const { Option } = Select;
+  useEffect(() => {
+      getEspecialidad();
+      getRoles();
+  }, [])
+  const onChangeSelect = (value) => {
+    //setEspecialidad(value);
+    console.log('select:', value);
+  }
+  const onChangeSelectRol = (value) => {
+    //setEspecialidad(value);
+    console.log('select:', value);
+  }
+  const [optionEspecialidad, setOptionEspecialidad] = useState([]);
+  const [optionRoles, setOptionRoles] = useState([]);
+    const onFinish = (values) => {
+      console.log('Received values of form: ', values);
+      axios.post('http://localhost:8080/api/aut/registrar', values)
+      .then(res => {
+          console.log(res.data);
+          Swal.fire(
+              'Usuario Registrado',
+              'El usuario se registro correctamente',
+              'success'
+          )
+          navigate("/admin/home");
+      })
+      .catch(err => {
+          console.log(err);
+      })
+    };
+    
     const layout = {
       labelCol: { span: 8 },
       wrapperCol: { span: 8 },
@@ -48,7 +104,7 @@ export const Register = () => {
         >
             <Form.Item
                 label="Nombre"
-                name="nombre"
+                name="name"
                 rules={[
                 {
                     required: true,
@@ -66,8 +122,26 @@ export const Register = () => {
             </Form.Item>
 
             <Form.Item
-                label="apellido"
-                name="apellido"
+                label="rut"
+                name="rut"
+                rules={[
+                {
+                    required: true,
+                    message: 'Ingresa el apellido',
+                },
+
+                {
+                  min: 3,
+                  message: 'MInimo de caracteres 3',
+                },
+                
+                ]}
+            >
+            <Input />
+            </Form.Item>
+            <Form.Item
+                label="telefono"
+                name="telefono"
                 rules={[
                 {
                     required: true,
@@ -101,6 +175,65 @@ export const Register = () => {
             >
             <Input />
             </Form.Item>
+            <Form.Item
+                        label="Especialidad"
+                        name="especialidad"
+                        rules={[{ required: true, message: 'Debes Seleccionar una especialidad' }]}
+                    >
+                        <Select
+                            showSearch
+                            style={{ width: 200 }}
+                            placeholder="Selecciona Especialidad"
+                            optionFilterProp="children"
+                            onChange={onChangeSelect}
+                            filterOption={
+                                (input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            }
+                            filterSort={(optionA, optionB) =>
+                                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                            }
+                            >
+                                { optionEspecialidad?.map((item, index) => {
+                                    return (                         
+                                        <>
+                                        <Option key={index} value={item._id}>{item.nombre}</Option>
+                                        </>
+                                    )}
+                                )}
+                        </Select>
+                    </Form.Item>
+
+            
+            <Form.Item
+                label="Tipo"
+                name="rol"
+                rules={[{ required: true, message: 'Debes Seleccionar un role' }]}
+            >
+                  <Select
+                      showSearch
+                      style={{ width: 200 }}
+                      placeholder="Selecciona rol"
+                      optionFilterProp="children"
+                      onChange={onChangeSelectRol}
+                      filterOption={
+                          (input, option) =>
+                          option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      filterSort={(optionA, optionB) =>
+                          optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                      }
+                    >
+                                { optionRoles?.map((item, index) => {
+                                    return (                         
+                                        <>
+                                        <Option key={index} value={item._id}>{item.nombre}</Option>
+                                        </>
+                                    )}
+                                )}
+                        </Select>
+                    </Form.Item>
+
 
 
             <Form.Item
@@ -118,7 +251,7 @@ export const Register = () => {
 
             <Form.Item
                 label="Confirmar password"
-                name="confirmpassword"
+                name="confirmPassword"
                 dependencies={['password']}
                 rules={[
                   {
@@ -137,6 +270,8 @@ export const Register = () => {
             >
                 <Input.Password />
             </Form.Item>
+
+
             <Form.Item
                 wrapperCol={{
                 offset: 8,

@@ -23,8 +23,8 @@ export const HeaderNavClient = () => {
         <Menu.Item key="/reserve">
           <Link to="/reserve">Reservar</Link>
         </Menu.Item>
-        <Menu.Item key="/home">
-          <Link to="/home">Buscar Reservas</Link>
+        <Menu.Item key="/buscar">
+          <Link to="/buscar">Buscar Reservas</Link>
         </Menu.Item>
        
 

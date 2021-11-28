@@ -9,6 +9,7 @@ import { Register } from '../components/Register';
 import { Home } from '../view/Home';
 import { HomeAdmin } from '../view/HomeAdmin';
 import { Main } from '../view/Main';
+import { SearchReserve } from '../view/SearchReserve';
 export const RoutesApp = () => {
     const [load, setLoad] = useState(false)
     const location = useLocation();
@@ -16,7 +17,8 @@ export const RoutesApp = () => {
         if(location.pathname === '/admin/home' || location.pathname === '/admin/register'){
             return setLoad(1);
         }
-        if(location.pathname === '/home' || location.pathname === '/reserve'){
+        if(location.pathname === '/home' || location.pathname === '/reserve' 
+        || location.pathname === '/buscar'){
             return setLoad(2);
         }
         else {
@@ -40,6 +42,7 @@ export const RoutesApp = () => {
                 <Route path="/admin/login" element={<Login />} />
                 <Route path="/admin/register" element={<Register />} />
                 <Route path="/admin/home" element={<HomeAdmin />} />
+                <Route path="/buscar" element={<SearchReserve />} />
             </Routes>
         </div>
     )

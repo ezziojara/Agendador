@@ -11,24 +11,8 @@ export const LoginUser = () => {
         navigate("/home");
     }
     const { Option } = Select;
-    const  initEspecialidad = [
-        {
-            nombre: 'Especialidad 1',
-            status: true
-        },
-        {
-            nombre: 'Especialidad 2',
-            status: true
-        },
-        {
-            nombre: 'Especialidad 3',
-            status: true
-        }
-    ]
-
-    //const [paciente, setPaciente] = useState({});
     const { paciente,setPaciente } = useContext(UsuarioContext);
-    const [optionEspecialidad, setOptionEspecialidad] = useState(initEspecialidad);
+    const [optionEspecialidad, setOptionEspecialidad] = useState([]);
     const { especialidad, setEspecialidad } = useContext(EspecialidadContext);
 
     const getEspecialidad =() =>{
@@ -44,10 +28,7 @@ export const LoginUser = () => {
 
     useEffect(() => {
         getEspecialidad();
-
     }, [])
-
-
     const onChangeSelect = (value) => {
         //setEspecialidad(value);
         console.log('select:', value);
@@ -76,56 +57,59 @@ export const LoginUser = () => {
     const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
-    console.log('paciente:', paciente);
+    
     return (
         <div >
-             <Card style={{ width: 300, margin: 'auto' }}>
-             <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-            >
-            <Form.Item
-                    label="Rut"
-                    name="rut"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+            { optionEspecialidad && (
+            <Card style={{ width: 300, margin: 'auto' }}>
+                <Form
+                    name="basic"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
                 >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Especialidad"
-                    name="especialidad"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                >
-                <Select
+                    <Form.Item
+                            label="Rut"
+                            name="rut"
+                            rules={[{ required: true, message: 'Debes ingresar tu Rut' }]}
+                        >
+                            <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Especialidad"
+                        name="especialidad"
+                        rules={[{ required: true, message: 'Debes Seleccionar una especialidad' }]}
+                    >
+                        <Select
                             showSearch
                             style={{ width: 200 }}
                             placeholder="Selecciona Especialidad"
                             optionFilterProp="children"
                             onChange={onChangeSelect}
-                            filterOption={(input, option) =>
-                            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                            filterOption={
+                                (input, option) =>
+                                option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
                             filterSort={(optionA, optionB) =>
-                            optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                                optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
                             }
-                        >
-                            { optionEspecialidad?.map((item, index) => {
+                            >
+                                { optionEspecialidad?.map((item, index) => {
                                     return (                         
-                                    <>
+                                        <>
                                         <Option key={index} value={item._id}>{item.nombre}</Option>
-                                    </>
+                                        </>
                                     )}
                                 )}
-                    </Select>
+                        </Select>
                     </Form.Item>
                     <Button type="primary" htmlType="submit">Ingresar</Button>
-                    </Form>
+                </Form>
             </Card>
+            )}
         </div>
     )
 }

@@ -17,9 +17,6 @@ export const FormConfirm = ({doctor, bloques, date}) => {
             doctor: doctor._id,
         };
         console.log('valueReserva', valueReserva);
-
-
-
         const value = {...paciente, ...values};
 
         axios.post('http://localhost:8080/api/reservas/new', valueReserva, 
@@ -41,7 +38,7 @@ export const FormConfirm = ({doctor, bloques, date}) => {
             }
         ).then(res => {
                 console.log(res);
-                //setPaciente(res.data);
+                setPaciente({...paciente, ...res.data});
                 //console.log('paciente', paciente);
         }).catch(err => {
             console.log(err);

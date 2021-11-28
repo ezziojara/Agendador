@@ -12,8 +12,6 @@ let navigate = useNavigate();
     const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);
     };
-
-
     return (
         <div style={{ margin: 40}}>
             <Card className="login-card">

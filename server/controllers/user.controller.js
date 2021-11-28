@@ -74,7 +74,6 @@ module.exports.getDoctorxEspecialidad = async (req, res) => {
     try{
         const { id } = req.params;
         const doctorList = await User.find({ especialidad: id });
-        
         return res.json( doctorList );
     }catch(err){
         return res.status(500).json({error: err});

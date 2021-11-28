@@ -1,14 +1,30 @@
 import { Button, Row, Col, Space, Select, DatePicker, Card } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from "react-router-dom";
 import { TableList } from '../components/TableList';
 import moment from 'moment';
+import axios from 'axios';
 
 export const HomeAdmin = () => {
     const { Option } = Select;
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
+    const getDoctor = () => {
+        axios.get(`http://localhost:8080/api/aut/doctor/${especialidad}`)
+            .then(res => {
+               console.log(res.data);
+                setOptionDoctor(res.data);
+               
+        }).catch(err => {
+            console.log(err);
+        }
+        )
+
+    }
+    useEffect(() => {
+        getDoctor();
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
     const onChangeSelect = (value) => {
         console.log(`selected ${value}`);
         initDoctor.filter(doctor => doctor.id === value).map(doctor => {
@@ -97,7 +113,7 @@ export const HomeAdmin = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [especialidad, setEspecialidad] = useState('');
     const [doctor, setDoctor] = useState('');
-    
+    const [optionDoctor, setOptionDoctor] = useState([]);
 
     const [bloques, setBloques] = useState({});
     const   handleDate= (date) => {
@@ -149,10 +165,10 @@ export const HomeAdmin = () => {
                         }
                     >
                     
-                    { initDoctor?.map((item, index) => {
+                    { optionDoctor?.map((item, index) => {
                         return (                         
                         <>
-                            <Option key={index} value={item.id}>{item.nombre}</Option>
+                            <Option key={index} value={item._id}>{item.name}</Option>
                         </>
                         )}
                     )}

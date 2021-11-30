@@ -79,3 +79,13 @@ module.exports.getDoctorxEspecialidad = async (req, res) => {
         return res.status(500).json({error: err});
     }
 };
+
+module.exports.getDoctor = async (req, res) => {
+    try{
+        const id = '61a2542fc3b4c17c7bcf6b6e'; 
+        const doctorList = await User.find({ rol: id });
+        return res.json( doctorList );
+    }catch(err){
+        return res.status(500).json({error: err});
+    }
+};

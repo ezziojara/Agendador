@@ -1,6 +1,7 @@
 const Reserva = require('../models/reserva.model');
 const Horario = require('../models/horario.model');
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const nodemailer = require("nodemailer");
 
 module.exports.getReservaxDoctorxFecha = async (req, res) => {
     try{
@@ -121,5 +122,38 @@ module.exports.getReservaxPaciente = async (req, res) => {
     }catch(err){
         
         return res.status(500).json({msg:"no hay reserva asociada a la información",error: err});
+    }
+};
+
+module.exports.enviarCorreoPaciente = async (req, res) => {
+    try{
+        const { id } = req.params;
+        const reserva =  await Reserva.findOne({_id: id}).populate('paciente');
+        console.log('reserva',reserva)
+        
+        let testAccount = await nodemailer.createTestAccount();
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            secure: true, // true for 465, false for other ports
+            auth: {
+              user: 'finalmernproject@gmail.com', // generated ethereal user
+              pass: '6H}=nhwZ', // generated ethereal password
+            },
+          });
+
+          let info = await transporter.sendMail({
+            from: 'finalmernproject@gmail.com', // sender address
+            to: reserva.paciente.email, // list of receivers
+            subject: `Reserva numero: ${reserva._id}`,
+            text: "Hello world?", // plain text body
+            html: `<p>Estimado ${reserva.paciente.nombre} ${reserva.paciente.apellido}: <br> Se ha creado la siguiente reserva ${reserva._id}. <br> Para cancelar tu reserva puedes ir a: <a href="http://localhost:3000/buscar">Cancelar Reserva</a> </p>`, // html body
+          });
+
+        return res.json( info );
+
+    }catch(err){
+        console.log('err',err)
+        return res.status(500).json({error: err});
     }
 };

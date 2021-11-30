@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import { Card, Input, Select,Button,Form  } from 'antd';
+import { Card, Input, Select,Button,Form, Col  } from 'antd';
 import moment from 'moment';
 import { UsuarioContext } from '../context/UsuarioContext';
 import axios from 'axios';
-export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
+export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange}) => {
         const { paciente,setPaciente } = useContext(UsuarioContext);
         console.log('doctor', doctor);
         console.log('bloque', bloques);
@@ -19,18 +19,6 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
         console.log('valueReserva', valueReserva);
         const value = {...paciente, ...values};
 
-        axios.post('http://localhost:8080/api/reservas/new', valueReserva, 
-        {headers: 
-            {
-            'token': paciente.token
-            }
-        }).then(res => {
-            console.log(res);
-        }).catch(err => {
-            console.log(err);
-        }
-        )
-
         axios.put(`http://localhost:8080/api/pacientes/update/${paciente._id}`, value, {
                 headers: {
                 'token': paciente.token
@@ -40,10 +28,24 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
                 console.log(res);
                 setPaciente({...paciente, ...res.data});
                 setIsModalVisible(false);
+                setChange(true);
                 //console.log('paciente', paciente);
         }).catch(err => {
             console.log(err);
         });
+
+        axios.post('http://localhost:8080/api/reservas/new', valueReserva, 
+        {headers:
+            {
+            'token': paciente.token
+            }
+        }).then(res => {
+            console.log('respuesta para el email', res.data_id);
+            email(res.data._id);
+        }).catch(err => {
+            console.log(err);
+        }
+        )        
 
         console.log('para subir', value);
       };
@@ -52,6 +54,17 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
       };
+
+
+      const email = (id) => {
+          axios.get(`http://localhost:8080/api/reservas/enviarCorreoPaciente/${id}`)
+            .then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            }
+            )
+        }
     return (
         
         <div>
@@ -104,9 +117,14 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
                 >
                 <Input />
             </Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Col span={22}>
+            <Button style={{ marginLeft : 'auto', display: 'flex'}} type="primary" htmlType="submit">
                 Confirmar
             </Button>
+           </Col>
+
+
+
             </Form>
             
 

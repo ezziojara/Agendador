@@ -40,7 +40,7 @@ export const Main = () => {
     const [bloques, setBloques] = useState({});
     const [doctor, setDoctor] = useState('');
     const [loadD, setLoadD] = useState(false);
-
+    const [change, setChange] = useState(false);
     const [loadB, setLoadB] = useState(false);
   
     const getDoctor = () => {
@@ -75,8 +75,8 @@ export const Main = () => {
     console.log(paciente)
     useEffect(() => {
             getDoctor();
-            //getHorario();
-    }, [especialidad, paciente]) // eslint-disable-line react-hooks/exhaustive-deps
+            getHorario(doctor._id, date);
+    }, [especialidad, paciente, change]) 
     const   handleDate= (date) => {
         setDate(date);
         getHorario(doctor._id, date);
@@ -182,7 +182,7 @@ export const Main = () => {
                 <Modal destroyOnClose={true}  title="Confirmar Reserva" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
                 footer={null}
                   >
-                    <FormConfirm setIsModalVisible={setIsModalVisible}  doctor={doctor} bloques={bloques} date={date}/>
+                    <FormConfirm setOptionHorario={setOptionHorario} set={setChange} setIsModalVisible={setIsModalVisible}  doctor={doctor} bloques={bloques} date={date}/>
                 </Modal>
                 
             </Row>
@@ -191,7 +191,7 @@ export const Main = () => {
             (
             <Row>  
                 <h1>Debes Seleccionar un DoctorADSADSDASDASD</h1>
-                {alert()}
+            
             </Row>
             )
         }

@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { UsuarioContext } from '../context/UsuarioContext';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import moment from 'moment';
 import { EspecialidadContext } from '../context/EspecialidadContext';
 export const SearchReserve = () => {
     let navigate = useNavigate();
@@ -13,28 +14,53 @@ export const SearchReserve = () => {
     }
     const onFinish = (values: any) => {
         console.log('Success:', values);
-        Swal.fire(
-            'Good job!',
-            'You clicked the button!',
-            'success'
-          )
-        /*
-        const valuePasientes =  {
-            rut: values.rut
-        }
-        console.log(valuePasientes);
-        axios.get('http://localhost:8080/api/pacientes/new', valuePasientes)
+
+        axios.get(`http://localhost:8080/api/reservas/paciente/${values._id}/${values.paciente}`)
         .then(res => {
-            console.log(res.data);
-            setPaciente(res.data);
-            setEspecialidad(values.especialidad);
-            localStorage.setItem('paciente',JSON.stringify(res.data));
-            
+            console.log(res.data);   
+            Swal.fire({
+                title: '<strong><u>Datos de la reserva</strong>',
+                icon: 'info',
+                html:
+                  'Nombre paciente: <b>'+ res.data.paciente.nombre +' '+res.data.paciente.nombre +'</b>, ' +
+                  '<br>'+
+                  'Nombre Doctor: <b>'+
+                  res.data.doctor.name +
+                  '<br> Hora:' + res.data.horario.horaInicio +
+                  '<br> Fecha:' + moment(res.data.fecha).format('DD-MM-YYYY') , 
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonText:
+                  '<i class="fa fa-thumbs-up"></i>Cancelar',
+                confirmButtonAriaLabel: 'Thumbs up, great!',
+        
+                }).then((result) => {
+                    if (result.value) {
+                        axios.delete(`http://localhost:8080/api/reservas/delete/${res.data._id}`)
+                        .then(res => {
+                            console.log(res);
+                            Swal.fire(
+                                'Cancelado!',
+                                'La reserva ha sido cancelada.',
+                                'success'
+                              )
+                        }).catch(err => {
+                            console.log(err);
+                        }
+                        )
+                    }
+              })
         })
-        .catch(err => {
-            console.log(err);
+        .catch(err => {        
+             
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: err.response.data.msg
+                })
         })
-        navigate("/ResultFind");*/
+        //navigate("/ResultFind");
     };
     
     const onFinishFailed = (errorInfo: any) => {
@@ -48,7 +74,7 @@ export const SearchReserve = () => {
                 name="basic"
                 labelCol={{ span: 12 }}
                 wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
+                initialValues={{}}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"

@@ -1,12 +1,16 @@
 import { Button, Row, Col, Space, Select, DatePicker, Card } from 'antd';
-import React, { useEffect, useState } from 'react'
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react'
+import { Link, useNavigate } from "react-router-dom";
 import { TableList } from '../components/TableList';
 import moment from 'moment';
 import axios from 'axios';
+import { UsuarioAdminContext } from '../context/UsuarioAdminContext';
 
 export const HomeAdmin = () => {
     const { Option } = Select;
+    let navigate = useNavigate();
+    const { usuario, setUsuario } = useContext(UsuarioAdminContext);
+    console.log('contexto', usuario);
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
@@ -23,8 +27,11 @@ export const HomeAdmin = () => {
 
     }
     useEffect(() => {
+        if(!usuario){
+            navigate(`/admin/login`);
+        }
         getDoctor();
-    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+    }, [usuario]) // eslint-disable-line react-hooks/exhaustive-deps
     const onChangeSelect = (value) => {
         console.log(`selected ${value}`);
         initDoctor.filter(doctor => doctor.id === value).map(doctor => {

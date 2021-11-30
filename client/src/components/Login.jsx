@@ -2,12 +2,34 @@ import React, { useContext } from 'react'
 import { Form, Input, Button, Card } from 'antd';
 import Swal from 'sweetalert2';
 import { useNavigate, Route, Link } from "react-router-dom";
+import axios from 'axios';
+import { UsuarioAdminContext } from '../context/UsuarioAdminContext';
 
 
 export const Login = () => {
-let navigate = useNavigate();
+    let navigate = useNavigate();
+    const { usuario, setUsuario } = useContext(UsuarioAdminContext);
     const onFinish = values => {
-        navigate(`/admin/home`);
+        
+        console.log('Success:', values);
+       // navigate(`/admin/home`);
+       axios.post('http://localhost:8080/api/aut/login', values)
+       .then(res => {
+           console.log(res.data);
+           setUsuario(res.data);
+           localStorage.setItem('usuario', JSON.stringify(res.data));
+           navigate(`/admin/home`);
+       })
+        .catch(err => {
+                console.log(err);
+                Swal.fire({
+                     icon: 'error',
+                     title: 'Oops...',
+                     text: 'Usuario o contraseña incorrectos',
+                })
+              }
+        );
+
     }
     const onFinishFailed = errorInfo => {
     console.log('Failed:', errorInfo);

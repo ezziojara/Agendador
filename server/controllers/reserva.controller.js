@@ -146,7 +146,6 @@ module.exports.enviarCorreoPaciente = async (req, res) => {
             from: 'finalmernproject@gmail.com', // sender address
             to: reserva.paciente.email, // list of receivers
             subject: `Reserva numero: ${reserva._id}`,
-            text: "Hello world?", // plain text body
             html: `<p>Estimado ${reserva.paciente.nombre} ${reserva.paciente.apellido}: <br> Se ha creado la siguiente reserva ${reserva._id}. <br> Para cancelar tu reserva puedes ir a: <a href="http://localhost:3000/buscar">Cancelar Reserva</a> </p>`, // html body
           });
 

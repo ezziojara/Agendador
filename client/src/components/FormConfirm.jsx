@@ -3,7 +3,7 @@ import { Card, Input, Select,Button,Form  } from 'antd';
 import moment from 'moment';
 import { UsuarioContext } from '../context/UsuarioContext';
 import axios from 'axios';
-export const FormConfirm = ({doctor, bloques, date}) => {
+export const FormConfirm = ({doctor, bloques, date, setIsModalVisible}) => {
         const { paciente,setPaciente } = useContext(UsuarioContext);
         console.log('doctor', doctor);
         console.log('bloque', bloques);
@@ -39,6 +39,7 @@ export const FormConfirm = ({doctor, bloques, date}) => {
         ).then(res => {
                 console.log(res);
                 setPaciente({...paciente, ...res.data});
+                setIsModalVisible(false);
                 //console.log('paciente', paciente);
         }).catch(err => {
             console.log(err);

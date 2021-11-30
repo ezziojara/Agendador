@@ -1,8 +1,27 @@
 import { Table, Tag, Space } from 'antd';
-import React from 'react'
-
-export const TableList = () => {
-    
+import axios from 'axios';
+import React, { useContext, useEffect } from 'react'
+import { UsuarioAdminContext } from '../context/UsuarioAdminContext';
+import moment from 'moment';
+export const TableList = ({date}) => {
+  
+  const { usuario, setUsuario } = useContext(UsuarioAdminContext);
+  console.log(date,usuario);
+  const getDoctorTable = () => {
+    const fecha = moment(date).format('YYYY-MM-DD');
+    const id = usuario._id;
+    axios.get(`http://localhost:8080/api/reservas/${id}/${fecha}`)
+    .then(res => {
+              console.log(res.data);
+    })
+    .catch(err => {
+        console.log(err);
+    }
+    )
+  }
+  useEffect(() => {
+    getDoctorTable();
+  }, []);
 
 const columns = [
   {

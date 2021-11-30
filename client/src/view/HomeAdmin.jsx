@@ -150,7 +150,6 @@ export const HomeAdmin = () => {
         <div className='contentHome'>
             <div className='contentHome-title'>
                         <h1>Bienvenido Administrador</h1>
-                    
             </div>
                 
             <Row>
@@ -190,7 +189,7 @@ export const HomeAdmin = () => {
 
                 <Col style={{textAlign: 'center'}} xs={2} sm={4} md={6} lg={8} xl={24}>
                 
-                <TableList />
+                <TableList date={date} />
        
                 
                 </Col>

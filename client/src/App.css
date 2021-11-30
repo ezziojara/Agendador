@@ -48,3 +48,7 @@
 th.ant-table-cell {
   background-color: #1890ff!important;
 }
+
+.cardDisable {
+  background-color: #ff000014;
+}

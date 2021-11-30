@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { DatePicker, Space } from 'antd';
-import { Row, Col, Card, Modal, Button } from 'antd';
+import { Row, Col, Card, Modal, Button, Tooltip  } from 'antd';
 import { Select } from 'antd';
 import moment from 'moment';
+
 import Swal from 'sweetalert2'
 import { FormConfirm } from '../components/FormConfirm';
 import { UsuarioContext } from '../context/UsuarioContext';
@@ -105,8 +106,7 @@ export const Main = () => {
     return (
 
         <div className='contentHome'>
-            { loadD && (
-            
+            { loadD ? (
             <Row>
                 <Col xl={2}>
                 </Col>
@@ -151,11 +151,22 @@ export const Main = () => {
                     optionHorario?.map((item, index) => {
                         return (
                             <div key={index}>
-                                
-                                <Card.Grid style={gridStyle} onClick={() => handleModal(item)}>
+                                {item.tieneReserva ? (
+                                <Tooltip title="No disponible">
+                                    <Card.Grid className="cardDisable" style={gridStyle} hoverable={false} >
+                                        <h1>{item.horaInicio}</h1>
+                                        <p>{item.tieneReserva  ? 'No disponible': 'Disponible'}</p>
+                                    </Card.Grid>
+                                </Tooltip>
+                                )
+                                : (
+                                <Card.Grid style={gridStyle}  onClick={() => handleModal(item)}>
                                     <h1>{item.horaInicio}</h1>
                                     <p>{item.tieneReserva  ? 'No disponible': 'Disponible'}</p>
                                 </Card.Grid>
+                                )
+                    }
+
                                
                             </div>
                         )
@@ -169,23 +180,22 @@ export const Main = () => {
                 </Col>
                
                 <Modal destroyOnClose={true}  title="Confirmar Reserva" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}
-                footer={[
-                    <Button key="back" onClick={handleCancel}>
-                      Cancelar
-                    </Button>,
-                    <Button key="submit" type="primary" onClick={handleOk}>
-                      Confirmar
-                    </Button>,
-                    
-                  ]}
-                  
+                footer={null}
                   >
-                    <FormConfirm  doctor={doctor} bloques={bloques} date={date}/>
+                    <FormConfirm setIsModalVisible={setIsModalVisible}  doctor={doctor} bloques={bloques} date={date}/>
                 </Modal>
                 
             </Row>
-            )}
+            )
+            :
+            (
+            <Row>  
+                <h1>Debes Seleccionar un DoctorADSADSDASDASD</h1>
+                {alert()}
+            </Row>
+            )
+        }
 
-        </div>
+    </div>
     )
 }

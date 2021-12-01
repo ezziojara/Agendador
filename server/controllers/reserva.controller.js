@@ -156,3 +156,21 @@ module.exports.enviarCorreoPaciente = async (req, res) => {
         return res.status(500).json({error: err});
     }
 };
+
+module.exports.getReservaxDoctorxFechaGrilla = async (req, res) => {
+    try{
+        let { id, fecha } = req.params;
+        const horarios = [];
+        fechaBusqueda = new Date(fecha);
+
+
+        const reservaList = await Reserva.find({ doctor : id, fecha: fechaBusqueda }).populate('paciente').populate('horario').populate('doctor');
+
+        res.json( reservaList )
+
+        
+    }catch(err){
+        
+        return res.status(500).json({msg:"no hay reserva asociada a la información",error: err});
+    }
+};

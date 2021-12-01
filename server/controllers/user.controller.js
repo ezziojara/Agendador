@@ -7,7 +7,7 @@ module.exports.AutenticaUsuario = async (req, res) => {
     try{
         const { body } = req;
 
-        const usuarioFind = await User.findOne({email: body.email});
+        const usuarioFind = await User.findOne({email: body.email}).populate('rol');
 
         const validarPassword = bcrypt.compareSync(body.password, usuarioFind.password);
         
@@ -22,6 +22,7 @@ module.exports.AutenticaUsuario = async (req, res) => {
                 name: usuarioFind.name,
                 email: usuarioFind.email,
                 password: usuarioFind.password,
+                rol:usuarioFind.rol.nombre,
                 token:token
             }
 

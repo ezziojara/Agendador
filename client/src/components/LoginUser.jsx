@@ -61,11 +61,11 @@ export const LoginUser = () => {
     return (
         <div >
             { optionEspecialidad && (
-            <Card style={{ width: 300, margin: 'auto' }}>
+            <Card style={{ width: 340, margin: 'auto' }}>
                 <Form
                     name="basic"
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
+                    labelCol={{ span: 12 }}
+                    wrapperCol={{ span: 12 }}
                     initialValues={{ remember: true }}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
@@ -85,7 +85,7 @@ export const LoginUser = () => {
                     >
                         <Select
                             showSearch
-                            style={{ width: 200 }}
+                            style={{ width: 150 }}
                             placeholder="Selecciona Especialidad"
                             optionFilterProp="children"
                             onChange={onChangeSelect}
@@ -106,7 +106,9 @@ export const LoginUser = () => {
                                 )}
                         </Select>
                     </Form.Item>
-                    <Button type="primary" htmlType="submit">Ingresar</Button>
+                    <div className="alinearDerecha">
+                        <Button type="primary" htmlType="submit">Ingresar</Button>
+                    </div>
                 </Form>
             </Card>
             )}

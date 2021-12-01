@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Card, Input, Select,Button,Form  } from 'antd';
 import { useParams, useNavigate } from "react-router-dom";
-import { UsuarioContext } from '../context/UsuarioContext';
+import { UsuarioContext } from '../context/UsuarioAdminContext';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import moment from 'moment';
@@ -89,12 +89,15 @@ export const SearchReserve = () => {
             <Form.Item
                     label="Numero Reserva"
                     name="_id"
-                    rules={[{ required: true, message: 'Debes ingresar el nUmero de reserva' }]}
+                    rules={[{ required: true, message: 'Debes ingresar el numero de reserva' }]}
             >
                     <Input />
             </Form.Item>
+            <div className="alinearDerecha">
                     <Button type="primary" htmlType="submit">Buscar</Button>
+            </div> 
                     </Form>
+           
             </Card>
         </div>
     )

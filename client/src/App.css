@@ -52,3 +52,7 @@ th.ant-table-cell {
 .cardDisable {
   background-color: #ff000014;
 }
+
+.centrar {
+  text-align: center;
+}

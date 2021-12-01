@@ -37,7 +37,7 @@ export const Login = () => {
     return (
         <div style={{ margin: 40}}>
             <Card className="login-card">
-            <h1>Login</h1>
+            <h1 className="centrar">Login</h1>
             <Form
                 name="basic"
                 labelCol={{
@@ -81,9 +81,11 @@ export const Login = () => {
                     span: 8,
                     }}
                 >
+                    <div className="alinearDerecha">
                     <Button style={{marginRight: 20}} type="primary" htmlType="submit">
                     Ingresar
                     </Button>
+                    </div>
                     
                 </Form.Item>
             </Form>

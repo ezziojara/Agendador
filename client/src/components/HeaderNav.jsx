@@ -47,7 +47,7 @@ export const HeaderNav = () => {
 
         <Menu.Item  key="4" >
           <span onClick={handleLogOut}>
-            Logout
+            Salir
           </span>
             
         </Menu.Item>

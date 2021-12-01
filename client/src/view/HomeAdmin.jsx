@@ -141,16 +141,14 @@ export const HomeAdmin = () => {
             </div>
                 
             <Row>
-                <Col>
-                </Col>
-               
+                
                
                 <Col style={{textAlign: 'left'}} xs={2} sm={4} md={6} lg={8} xl={14}>
                 { usuario.rol === 'Administrador' && (
                     <Space direction="vertical">
                     <Select
                         showSearch
-                        style={{ width: 200 }}
+                        style={{ width: 200, marginBottom: '20px' }}
                         placeholder="Selecciona Doctor"
                         optionFilterProp="children"
                         onChange={onChangeSelect}

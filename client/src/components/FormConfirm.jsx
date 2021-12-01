@@ -10,7 +10,6 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange
         console.log('bloque', bloques);
         const onFinish = (values: any) => {
         console.log('Success:', values);
-        
         const valueReserva = {
             paciente: paciente._id,
             horario: bloques._id,
@@ -74,13 +73,13 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange
         
         <div>
             
-            <p>Rut Paciente: {paciente.rut}</p>
+            <p className="ant-col-7">Rut Paciente: {paciente.rut}</p>
             <p> Doctor: {doctor.name}</p>
-            <p> fecha {moment(date).format('DD/MM/YYYY')}</p>
+            <p> fecha: {moment(date).format('DD/MM/YYYY')}</p>
             <p>Hora: {bloques.horaInicio}</p>
              <Form
                 name="basic"
-                labelCol={{ span: 6 }}
+                labelCol={{ span: 7 }}
                 wrapperCol={{ span: 16 }}
                 initialValues={
                     { 
@@ -122,12 +121,11 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange
                 >
                 <Input />
             </Form.Item>
-            <Col span={22}>
+            <Col span={23}>
             <Button style={{ marginLeft : 'auto', display: 'flex'}} type="primary" htmlType="submit">
                 Confirmar
             </Button>
            </Col>
-
 
 
             </Form>

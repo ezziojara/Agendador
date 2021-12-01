@@ -57,7 +57,7 @@ export const TableList = ({date, doctor}) => {
   useEffect(() => {
     getDoctorTable();
     getTableData();
-  }, [date]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [date, doctor]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const data = 
     tableData.map(reserva => {
@@ -75,7 +75,7 @@ const columns = [
     title: 'Nombre',
     dataIndex: 'doctor',
     key: 'doctor',
-    render: text => <a>{text}</a>,
+    render: text => text,
   },
   {
     title: 'paciente',
@@ -93,7 +93,7 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       <Space size="middle">
-        <Button type="primary" onClick={() => deleteReserva(record.key)}> Eliminar </Button>
+        <Button type="danger" onClick={() => deleteReserva(record.key)}> Eliminar </Button>
       </Space>
     ),
   },

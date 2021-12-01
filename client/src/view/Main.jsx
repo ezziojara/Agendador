@@ -110,11 +110,11 @@ export const Main = () => {
             <Row>
                 <Col xl={2}>
                 </Col>
-                <Col style={{textAlign: 'left'}} xs={2} sm={4} md={6} lg={8} xl={10}>
+                <Col style={{textAlign: 'left', marginBottom: '20px'}} xs={2} sm={4} md={6} lg={8} xl={10}>
                     <Space direction="vertical">
                     <Select
                         showSearch
-                        style={{ width: 200 }}
+                        style={{ width: 200 , }}
                         placeholder="Selecciona Doctor"
                         optionFilterProp="children"
                         onChange={onChangeSelect}

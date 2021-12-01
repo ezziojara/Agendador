@@ -72,7 +72,12 @@ export const Register = () => {
           navigate("/admin/home");
       })
       .catch(err => {
-          console.log(err);
+          
+          Swal.fire(
+              'Error',
+              'El usuario no se registro correctamente'+ err.response.data.error.message,              
+          )
+          
       })
     };
     

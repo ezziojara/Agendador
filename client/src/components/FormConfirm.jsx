@@ -3,6 +3,7 @@ import { Card, Input, Select,Button,Form, Col  } from 'antd';
 import moment from 'moment';
 import { UsuarioContext } from '../context/UsuarioContext';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange}) => {
         const { paciente,setPaciente } = useContext(UsuarioContext);
         console.log('doctor', doctor);
@@ -42,15 +43,19 @@ export const FormConfirm = ({doctor, bloques, date, setIsModalVisible, setChange
         }).then(res => {
             console.log('respuesta para el email', res.data_id);
             email(res.data._id);
+            Swal.fire({
+                title: 'Reserva exitosa',
+                text: 'Se ha registrado su reserva',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+
         }).catch(err => {
             console.log(err);
         }
         )        
-
         console.log('para subir', value);
       };
-
-
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
       };

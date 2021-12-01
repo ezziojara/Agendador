@@ -14,10 +14,14 @@ export const HomeAdmin = () => {
     const onChange = (date, dateString) => {
         console.log(date, dateString);
     }
+    
+
+
     const getDoctor = () => {
-        axios.get(`http://localhost:8080/api/aut/doctor/${especialidad}`)
+        
+        axios.get(`http://localhost:8080/api/aut/doctorlist`)
             .then(res => {
-               console.log(res.data);
+               console.log('dato doctor', res.data);
                 setOptionDoctor(res.data);
                
         }).catch(err => {
@@ -31,34 +35,17 @@ export const HomeAdmin = () => {
             navigate(`/admin/login`);
         }
         getDoctor();
+    
     }, [usuario]) // eslint-disable-line react-hooks/exhaustive-deps
     const onChangeSelect = (value) => {
         console.log(`selected ${value}`);
-        initDoctor.filter(doctor => doctor.id === value).map(doctor => {
-            setDoctor(doctor);
-        })
+        
+            setDoctor(value);
         
         
     }
     const [date, setDate] = useState(moment());
     const format = 'DD/MM/YYYY';
-    const  initDoctor = [
-    {
-        id: 1,
-        nombre: 'Doctor 1',
-        status: true
-    },
-    {
-        id: 2,
-        nombre: 'Doctor 2',
-        status: true
-    },
-    {
-        id: 3,
-        nombre: 'Doctor 3',
-        status: true
-    }
-    ]
     const loading = () => {
         console.log('ok');
     }
@@ -146,16 +133,20 @@ export const HomeAdmin = () => {
         textAlign: 'center',
         margin: '5px'
       };
+      console.log(usuario);
     return (
         <div className='contentHome'>
             <div className='contentHome-title'>
-                        <h1>Bienvenido Administrador</h1>
+                        <h1>Bienvenido { usuario.rol } </h1>
             </div>
                 
             <Row>
-                <Col xl={2}>
+                <Col>
                 </Col>
-                <Col style={{textAlign: 'left'}} xs={2} sm={4} md={6} lg={8} xl={10}>
+               
+               
+                <Col style={{textAlign: 'left'}} xs={2} sm={4} md={6} lg={8} xl={14}>
+                { usuario.rol === 'Administrador' && (
                     <Space direction="vertical">
                     <Select
                         showSearch
@@ -180,7 +171,9 @@ export const HomeAdmin = () => {
                     )}
                     </Select>
                     </Space>
+                 )}
                 </Col>
+               
                 <Col style={{textAlign: 'right'}} xs={2} sm={4} md={6} lg={8} xl={10}>
                     <Space >
                         <DatePicker defaultValue={moment(date, format)} format={format} onChange={handleDate} />
@@ -189,7 +182,7 @@ export const HomeAdmin = () => {
 
                 <Col style={{textAlign: 'center'}} xs={2} sm={4} md={6} lg={8} xl={24}>
                 
-                <TableList date={date} />
+                <TableList doctor={doctor} date={date} />
        
                 
                 </Col>

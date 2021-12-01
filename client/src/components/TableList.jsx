@@ -1,9 +1,10 @@
-import { Table, Tag, Space } from 'antd';
+import { Table, Tag, Space, Button } from 'antd';
 import axios from 'axios';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { UsuarioAdminContext } from '../context/UsuarioAdminContext';
 import moment from 'moment';
-export const TableList = ({date}) => {
+import Swal from 'sweetalert2';
+export const TableList = ({date, doctor}) => {
   
   const { usuario, setUsuario } = useContext(UsuarioAdminContext);
   console.log(date,usuario);
@@ -19,15 +20,61 @@ export const TableList = ({date}) => {
     }
     )
   }
+  const deleteReserva = (id) => {
+        axios.delete(`http://localhost:8080/api/reservas/delete/${id}`)
+        .then(res => {
+          console.log(res);
+              Swal.fire(
+                'Cancelado!',
+                'La reserva ha sido cancelada.',
+                'success'
+          )
+          getTableData();
+        }).catch(err => {
+          console.log(err);
+         }
+      )
+  }
+  const [tableData, setTableData] = useState([]);
+    const getTableData = () => {
+      
+        const fecha = moment(date).format('YYYY-MM-DD');
+        const id = (usuario.rol === 'Administrador') ? doctor : usuario._id ;
+        console.log('fecha', fecha);
+        console.log('id', id);
+        axios.get(`http://localhost:8080/api/reservas/reservaGrilla/${id}/${fecha}`)
+            .then(res => {
+                console.log('respueta', res.data);
+                setTableData(res.data);
+               
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+
   useEffect(() => {
     getDoctorTable();
-  }, []);
+    getTableData();
+  }, [date]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const data = 
+    tableData.map(reserva => {
+      return {
+        key: reserva._id,
+        doctor: reserva.doctor.name,
+        paciente: reserva.paciente.nombre,
+        horario: reserva.horario.horaInicio
+      }
+    })
+  
+  console.log(data);
 const columns = [
   {
     title: 'Nombre',
     dataIndex: 'doctor',
-    key: 'name',
+    key: 'doctor',
     render: text => <a>{text}</a>,
   },
   {
@@ -36,8 +83,8 @@ const columns = [
     key: 'paciente',
   },
   {
-    title: 'bloque',
-    dataIndex: 'bloque',
+    title: 'Horario',
+    dataIndex: 'horario',
     key: 'address',
   },
   
@@ -46,41 +93,18 @@ const columns = [
     key: 'action',
     render: (text, record) => (
       <Space size="middle">
-        <a>Confirmar {record.name}</a>
-        <a>Cancelar</a>
+        <Button type="primary" onClick={() => deleteReserva(record.key)}> Eliminar </Button>
       </Space>
     ),
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    doctor: 'John Brown',
-    bloque: '8:00',
-    paciente: 'New York No. 1 Lake Park',
-    estado: true,
-  },
-  {
-    key: '2',
-    doctor: 'John  2',
-    bloque: '8:00',
-    paciente: 'New York No. 1 Lake Park',
-    estado: true,
-  },
-  {
-    key: '3',
-    doctor: 'John Brown 3',
-    bloque: '8:00',
-    paciente: 'New York No. 1 Lake Park',
-    estado: true,
-  },
-]
-
 
 return (
     <div>
+      { tableData && (
         <Table columns={columns} dataSource={data} />
+      )}
     </div>
 )
 }

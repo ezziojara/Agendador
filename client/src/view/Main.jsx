@@ -188,12 +188,7 @@ export const Main = () => {
             </Row>
             )
             :
-            (
-            <Row>  
-                <h1>Debes Seleccionar un DoctorADSADSDASDASD</h1>
-            
-            </Row>
-            )
+            ''
         }
 
     </div>

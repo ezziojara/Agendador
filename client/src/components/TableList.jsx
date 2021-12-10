@@ -10,7 +10,7 @@ export const TableList = ({date, doctor}) => {
   console.log(date,usuario);
   const getDoctorTable = () => {
     const fecha = moment(date).format('YYYY-MM-DD');
-    const id = usuario._id;
+    const id = usuario?._id;
     axios.get(`http://localhost:8080/api/reservas/${id}/${fecha}`)
     .then(res => {
               console.log(res.data);
@@ -39,7 +39,7 @@ export const TableList = ({date, doctor}) => {
     const getTableData = () => {
       
         const fecha = moment(date).format('YYYY-MM-DD');
-        const id = (usuario.rol === 'Administrador') ? doctor : usuario._id ;
+        const id = (usuario?.rol === 'Administrador') ? doctor : usuario?._id ;
         console.log('fecha', fecha);
         console.log('id', id);
         axios.get(`http://localhost:8080/api/reservas/reservaGrilla/${id}/${fecha}`)

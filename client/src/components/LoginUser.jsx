@@ -100,7 +100,10 @@ export const LoginUser = () => {
                                 { optionEspecialidad?.map((item, index) => {
                                     return (                         
                                         <>
+                                        {item.nombre !== 'Sin especialidad' && (
                                         <Option key={index} value={item._id}>{item.nombre}</Option>
+                                        )
+                                        }
                                         </>
                                     )}
                                 )}

@@ -15,7 +15,7 @@ module.exports.createEspecialidad = async (req, res) => {
 module.exports.getAllEspecialidad = async (req, res) => {
     try{
         
-        const especialidadList = await Especialidad.find();
+        const especialidadList = await Especialidad.find({ estado: true});
         return res.json( especialidadList );
     }catch(err){
         return res.status(500).json({error: err});

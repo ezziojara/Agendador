@@ -46,7 +46,8 @@ export const Main = () => {
     const getDoctor = () => {
         axios.get(`http://localhost:8080/api/aut/doctor/${especialidad}`)
             .then(res => {
-               console.log(res.data);
+                // const respuesta=res.data.filter(especialidad => especialidad.nombre !== 'Sin especialidad')
+                // console.log(respuesta);
                 setOptionDoctor(res.data);
                 setLoadD(true);
         }).catch(err => {

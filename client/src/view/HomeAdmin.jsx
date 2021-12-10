@@ -137,14 +137,14 @@ export const HomeAdmin = () => {
     return (
         <div className='contentHome'>
             <div className='contentHome-title'>
-                        <h1>Bienvenido { usuario.rol } </h1>
+                        <h1>Bienvenido { usuario?.rol } </h1>
             </div>
                 
             <Row>
                 
                
                 <Col style={{textAlign: 'left'}} xs={2} sm={4} md={6} lg={8} xl={14}>
-                { usuario.rol === 'Administrador' && (
+                { usuario?.rol === 'Administrador' && (
                     <Space direction="vertical">
                     <Select
                         showSearch
